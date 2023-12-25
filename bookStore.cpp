@@ -21,7 +21,12 @@ int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	ifstream openFile("bookStore.txt", ios_base::out);
+	string source;
+
+	cout << "Укажите расположение файла: ";
+	cin >> source;
+
+	ifstream openFile(source);
 
 	string record;
 	vector <string> name;
