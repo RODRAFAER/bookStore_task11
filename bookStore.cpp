@@ -297,7 +297,12 @@ opFile:
 		system("cls");
 		ofstream out(source, ios_base::out);
 		for (int i = 0; i < name.size(); i++) {
-			out << name[i] << " " << author[i] << " " << publish[i] << " " << year[i] << " " << price[i] << endl;
+			if (i == name.size() - 1) {
+				out << name[i] << " " << author[i] << " " << publish[i] << " " << year[i] << " " << price[i];
+			}
+			else {
+				out << name[i] << " " << author[i] << " " << publish[i] << " " << year[i] << " " << price[i] << endl;
+			}
 		}
 		if (doYouWantToWatch == 0) {
 			out.close();
