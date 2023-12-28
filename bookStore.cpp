@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <algorithm>
 
 using std::cin;
 using std::cout;
@@ -17,6 +18,7 @@ using std::string;
 using std::getline;
 using std::ios_base;
 using std::abs;
+using std::sort;
 
 int newStringProverka(int a) {
 	while (cin.fail() || a < 0 || a > 1) {
@@ -32,7 +34,7 @@ int newStringProverka(int a) {
 
 int proverka1(int a)
 {
-	while (cin.fail() || a < 0 || a > 3)
+	while (cin.fail() || a < 0 || a > 7)
 	{
 		cout << endl;
 		cin.clear();
@@ -76,8 +78,6 @@ int main() {
 
 	string source;
 
-
-	//string head[5] = {"Название", "Автор", "Издательство", "Год", "Цена (руб.)"};
 	int count = 0;
 
 	//Заносим все слова в массивы
@@ -212,55 +212,6 @@ opFile:
 	}
 
 
-
-	////Вывод верхней строки на экран
-	//string spaceName(abs(int(maxName) - int(head[0].length())) + 2, ' ');
-	//string spaceAuthor(abs(int(maxAuthor) - int(head[1].length())) + 2, ' ');
-	//string spacePublish(abs(int(maxPublish) - int(head[2].length())) + 2, ' ');
-	//string spaceYear(abs(int(maxYear) - int(head[3].length())) + 2, ' ');
-	//string spacePrice(abs(int(maxPrice) - int(head[4].length())) + 2, ' ');
-	//if (maxName > head[0].length()) {
-	//	cout << head[0] << spaceName;
-	//}
-	//else {
-	//	cout << head[0] << "  ";
-	//}
-
-	//if (maxAuthor > head[1].length()) {
-	//	cout << head[1] << spaceAuthor;
-	//}
-	//else {
-	//	cout << head[1] << "  ";
-	//}
-
-	//if (maxPublish > head[2].length()) {
-	//	cout << head[2] << spacePublish;
-	//}
-	//else {
-	//	cout << head[2] << "  ";
-	//}
-	//
-	//if (maxYear > head[3].length()) {
-	//	cout << head[3] << spaceYear;
-	//}
-	//else {
-	//	cout << head[3] << "  ";
-	//}
-
-	//if (maxPrice > head[4].length()) {
-	//	cout << head[4] << spacePrice;
-	//}
-	//else {
-	//	cout << head[4] << "  ";
-	//}
-	//cout << endl;
-
-	//spaceName.clear();
-	//spaceAuthor.clear();
-	//spacePublish.clear();
-	//spaceYear.clear();
-	//spacePrice.clear();
-
 	int allNames = name.size();
 	// Вывод всех слов 
 	for (int i = 0; i < allNames; i++) {
@@ -279,9 +230,17 @@ opFile:
 	}
 	cout << endl;
 
-
+select:
 	int select = 0;
-	cout << "Что вы хотите сделать дальше? (1 - выбрать книги из диапазона цен, 2 - добавить новые строки, 3 - удалить последнюю строку)" << endl;
+	cout << "Что вы хотите сделать дальше?\n"
+		<< "1 - выбрать книги из диапазона цен\n"
+		<< "2 - добавить новые строки\n"
+		<< "3 - удалить последнюю строку\n"
+		<< "4 - сортировать по названиям\n"
+		<< "5 - сортировать по авторам\n"
+		<< "6 - сортировать по издательству\n"
+		<< "7 - сортировать по году\n";
+
 	cin >> select;
 	select = proverka1(select);
 	if (select == 3) {
@@ -377,10 +336,182 @@ opFile:
 		vecYear.clear();
 		vecPrice.clear();
 		out.close();
-		goto opFile;	
+		goto opFile;
+	}
+	else if (select == 4) {
+	kniga:
+		string name1;
+		cout << "Введите название: ";
+		cin >> name1;
+		name1 = nameCheck(name1);
+		int count = 0;
+
+		system("cls");
+		cout << endl << "Ваша(-и) книга(-и)" << "\n" << "-------------------------------------------------------------------\n";
+		for (int i = 0; i < name.size(); i++) {
+			if (name1 == name[i]) {
+				cout << name[i] << " " << author[i] << " " << publish[i] << " " << year[i] << " " << price[i] << endl << "-------------------------------------------------------------------" << endl;
+				count++;
+			}
+		}
+		if (count == 0) {
+			cout << "Нет такой книги\n" << "-------------------------------------------------------------------\n";
+			name1.clear();
+			goto kniga;
+		}
+		goto select;
+
+
+		//	vector <string> name2;
+		//	vector <string> name1;
+		//	name2 = name;
+		//	name2.erase(name2.begin());
+		//	name1 = name2;
+		//	sort(name1.begin(), name1.end());
+		//	name1.insert(name1.begin(), "Название");
+
+		//	int count = 0;
+		//	int allNames = name.size();
+		//	// Вывод всех слов
+		//	for (int i = 0; i < allNames; i++) {
+		//		for (int j = 0; j < allNames; j++) {
+		//			if (name1[i] == name[j]) {
+		//				count++;
+		//				if (count == 1) {
+		//					string spaceName(maxName - name1[i].length() + 2, ' ');
+		//					cout << name1[i] << spaceName;
+		//					string spaceAuthor(maxAuthor - author[j].length() + 2, ' ');
+		//					cout << author[j] << spaceAuthor;
+		//					string spacePublish(maxPublish - publish[j].length() + 2, ' ');
+		//					cout << publish[j] << spacePublish;
+		//					string spaceYear(maxYear - year[j].length() + 2, ' ');
+		//					cout << year[j] << spaceYear;
+		//					string spacePrice(maxPrice - price[j].length() + 2, ' ');
+		//					cout << price[j] << spacePrice;
+
+		//					cout << endl;
+		//					break;
+		//				}
+		//				else {
+		//					count = 0;
+		//				}
+		//			}
+		//			count = 0;
+		//		}
+		//	}
+		//	cout << endl;
+
+	}
+	else if (select == 5) {
+	avtor:
+		string name1;
+		cout << "Введите автора: ";
+		cin >> name1;
+		name1 = nameCheck(name1);
+		int count = 0;
+
+		system("cls");
+		cout << endl << "Книга(-и) по вашему автору" << "\n" << "-------------------------------------------------------------------\n";
+		for (int i = 0; i < name.size(); i++) {
+			if (name1 == author[i]) {
+				cout << name[i] << " " << author[i] << " " << publish[i] << " " << year[i] << " " << price[i] << endl << "-------------------------------------------------------------------" << endl;
+				count++;
+			}
+		}
+		if (count == 0) {
+			cout << "Нет такого автора\n" << "-------------------------------------------------------------------\n";
+			name1.clear();
+			goto avtor;
+		}
+		goto select;
+
+		//vector <string> name2;
+		//vector <string> name1;
+		//name2 = author;
+		//name2.erase(name2.begin());
+		//name1 = name2;
+		//sort(name1.begin(), name1.end());
+		//name1.insert(name1.begin(), "Автор");
+
+		//int count = 0;
+		//int allNames = name.size();
+		// Вывод всех слов
+		//for (int i = 0; i < allNames; i++) {
+		//	for (int j = 0; j < allNames; j++) {
+		//		if (name1[i] == author[j]) {
+		//			count++;
+		//			if (count == 1) {
+		//				string spaceName(maxName - name[j].length() + 2, ' ');
+		//				cout << name[j] << spaceName;
+		//				string spaceAuthor(maxName - name1[i].length() + 2, ' ');
+		//				cout << name1[i] << spaceAuthor;
+		//				string spacePublish(maxPublish - publish[j].length() + 2, ' ');
+		//				cout << publish[j] << spacePublish;
+		//				string spaceYear(maxYear - year[j].length() + 2, ' ');
+		//				cout << year[j] << spaceYear;
+		//				string spacePrice(maxPrice - price[j].length() + 2, ' ');
+		//				cout << price[j] << spacePrice;
+
+		//				cout << endl;
+		//				break;
+		//			}
+		//			else {
+		//				count = 0;
+		//			}
+		//		}
+		//		count = 0;
+		//	}
+		//}
+		//cout << endl;
+	}
+	else if (select == 6) {
+	publish:
+		string name1;
+		cout << "Введите издательство: ";
+		cin >> name1;
+		name1 = nameCheck(name1);
+		int count = 0;
+
+		system("cls");
+		cout << endl << "Книга(-и) по вашему издательству" << "\n" << "-------------------------------------------------------------------\n";
+		for (int i = 0; i < name.size(); i++) {
+			if (name1 == publish[i]) {
+				cout << name[i] << " " << author[i] << " " << publish[i] << " " << year[i] << " " << price[i] << endl << "-------------------------------------------------------------------" << endl;
+				count++;
+			}
+		}
+		if (count == 0) {
+			cout << "Нет такого издательства\n" << "-------------------------------------------------------------------\n";
+			name1.clear();
+			goto publish;
+		}
+		goto select;
+	}
+	else if (select == 7) {
+	year:
+		string name1;
+		cout << "Введите год: ";
+		cin >> name1;
+		name1 = nameCheck(name1);
+		int count = 0;
+
+		system("cls");
+		cout << endl << "Книга(-и) по вашему году" << "\n" << "-------------------------------------------------------------------\n";
+		for (int i = 0; i < name.size(); i++) {
+			if (name1 == year[i]) {
+				cout << name[i] << " " << author[i] << " " << publish[i] << " " << year[i] << " " << price[i] << endl << "-------------------------------------------------------------------" << endl;
+				count++;
+			}
+		}
+		if (count == 0) {
+			cout << "Нет такого года\n" << "-------------------------------------------------------------------\n";
+			name1.clear();
+			goto year;
+		}
+		goto select;
 	}
 
 
 	system("pause");
 	return 0;
-}	
+}
